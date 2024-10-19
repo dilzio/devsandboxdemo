@@ -1,0 +1,6 @@
+[submodule "demo_API"]
+	path = demo_API
+	url = https://github.com/dilzio/demo_API.git
+[submodule "demokconsumer"]
+	path = demokconsumer
+	url = https://github.com/dilzio/demokconsumer.git
