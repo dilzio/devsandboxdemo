@@ -13,21 +13,21 @@ k8s_yaml('./config/kafka/00-namespace.yaml')
 k8s_yaml('./config/kafka/01-zookeeper.yaml')
 k8s_yaml('./config/kafka/02-kafka.yaml')
 
-#add labels for categorization in the tit UI and and port forwards so we can access
+#add labels for categorization in the tilt UI and and port forwards so we can access
 #the cluster from outside the cluster for testing (e.g., using kcat on local machine)
 k8s_resource(workload='zookeeper', labels=['Kafka_Cluster'])
 k8s_resource(workload='kafka-broker', port_forwards=9092, resource_deps=['zookeeper'], labels=['Kafka_Cluster'])
 
 
 #configure go API service
-docker_build('api-server', './api', dockerfile='./api/Dockerfile')
-k8s_yaml('./api/deploy.yaml')
+docker_build('api-server', './demo_API', dockerfile='./demo_API/Dockerfile')
+k8s_yaml('./demo_API/deploy.yaml')
 k8s_resource(workload='api-server', port_forwards=8080, labels=['api-server'], resource_deps=['kafka-broker'])
 
 
 #configure go Kafka consumer service
-docker_build('kconsumer-server', './kconsumer', dockerfile='./kconsumer/Dockerfile')
-k8s_yaml('./kconsumer/deploy.yaml')
+docker_build('kconsumer-server', './demokconsumer', dockerfile='./demokconsumer/Dockerfile')
+k8s_yaml('./demokconsumer/deploy.yaml')
 k8s_resource(workload='kconsumer-server', labels=['kconsumer-server'], resource_deps=['helm-ddb', 'kafka-broker'])
 
 # config.main_path is the absolute path to the Tiltfile being run
