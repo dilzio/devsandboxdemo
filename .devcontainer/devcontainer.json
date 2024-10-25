@@ -2,7 +2,6 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm-minikube
 {
 	"name": "Kubernetes - Minikube-in-Docker",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
 	"features": {
@@ -16,24 +15,27 @@
 			"minikube": "latest"
 		}
 	},
-	
+
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [8080,8001,10350],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	//"postCreateCommand": "kubectl version",
+	"postCreateCommand": "curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash && minikube version  && echo 'sleeping for 5 seconds to let Minikube initialize...' && sleep 5",
 
-	// Use 'postStartCommand' to run commands after the container is created like starting minikube.
-	//"postStartCommand": "nohup bash -c 'minikube start &' > minikube.log 2>&1",
-
+	// Use 'postStartCommand' to run commands after the container is started.
+	"postStartCommand": [
+		"touch foo.butt"
+	],
 
 	// Configure tool-specific properties.
-  "customizations" : {
-    "jetbrains" : {
-      "backend" : "IntelliJ"
-    }
-  },
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"customizations": {
+		"jetbrains": {
+			"settings": {
+				"com.intellij:app:HttpConfigurable.use_proxy_pac": true,
+				"Docker:app:DockerSettings.dockerComposePath": "/usr/local/bin/docker",
+				"Docker:app:DockerSettings.dockerPath": "/usr/local/bin/docker"
+			},
+			"backend": "IntelliJ"
+		}
+	}
 }
