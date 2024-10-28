@@ -1,41 +1,40 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/kubernetes-helm-minikube
 {
-	"name": "Kubernetes - Minikube-in-Docker",
-	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "name": "Kubernetes - Minikube-in-Docker",
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+      "version": "latest",
+      "helm": "latest",
+      "minikube": "latest"
+    }
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    8080,
+    8001,
+    10350
+  ],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "sudo -u vscode minikube start --driver=docker",
+  // Use 'postStartCommand' to run commands after the container is started.
+  "postStartCommand": "sudo -u vscode curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash && sudo -u vscode tilt up",
 
-	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"enableNonRootDocker": "true",
-			"moby": "true"
-		},
-		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-			"version": "latest",
-			"helm": "latest",
-			"minikube": "latest"
-		}
-	},
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8080,8001,10350],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash && minikube version  && echo 'sleeping for 5 seconds to let Minikube initialize...' && sleep 5",
-
-	// Use 'postStartCommand' to run commands after the container is started.
-	"postStartCommand": [
-		"touch foo.butt"
-	],
-
-	// Configure tool-specific properties.
-	"customizations": {
-		"jetbrains": {
-			"settings": {
-				"com.intellij:app:HttpConfigurable.use_proxy_pac": true,
-				"Docker:app:DockerSettings.dockerComposePath": "/usr/local/bin/docker",
-				"Docker:app:DockerSettings.dockerPath": "/usr/local/bin/docker"
-			},
-			"backend": "IntelliJ"
-		}
-	}
+  // Configure tool-specific properties.
+  "customizations": {
+    "jetbrains": {
+      "settings": {
+        "com.intellij:app:HttpConfigurable.use_proxy_pac": true,
+        "Docker:app:DockerSettings.dockerComposePath": "/usr/local/bin/docker",
+        "Docker:app:DockerSettings.dockerPath": "/usr/local/bin/docker"
+      },
+      "backend": "IntelliJ"
+    }
+  }
 }
