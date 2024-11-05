@@ -30,10 +30,26 @@ docker_build('kconsumer-server', './demokconsumer', dockerfile='./demokconsumer/
 k8s_yaml('./demokconsumer/deploy.yaml')
 k8s_resource(workload='kconsumer-server', labels=['kconsumer-server'], resource_deps=['helm-ddb', 'kafka-broker'])
 
+
+
 # config.main_path is the absolute path to the Tiltfile being run
 # there are many Tilt-specific built-ins for manipulating paths, environment variables, parsing JSON/YAML, and more!
 # https://docs.tilt.dev/api.html#api.config.main_path
 tiltfile_path = config.main_path
+
+
+# Define a local resource with a command to be executed when the button is clicked
+load('ext://uibutton', 'cmd_button', 'location', 'text_input')
+
+# create a button in the navbar
+# (logs will go to Tiltfile)
+cmd_button(name='nav-hello-world',
+           argv=['echo', 'Hello nav!'],
+           text='Hello World',
+           location=location.NAV,
+           icon_name='bolt')
+
+
 
 # print writes messages to the (Tiltfile) log in the Tilt UI
 # the Tiltfile language is Starlark, a simplified Python dialect, which includes many useful built-ins
