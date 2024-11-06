@@ -52,14 +52,14 @@ load('ext://uibutton', 'cmd_button', 'location', 'text_input')
 # (logs will go to Tiltfile)
 
 cmd_button(
-    name='nav-hello-world',
+    name='nav-run-e2e-tests',
     argv=[
         "docker", "run",
         "--mount", "type=bind,source=./e2e_test_suites,target=/workdir/tests",
         "--mount", "type=bind,source=./e2e_test_results,target=/workdir/results",
         "ovhcom/venom:latest"
     ],
-    text='Hello World',
+    text='Run E2E Tests',
     location=location.NAV,
     icon_name='bolt'
 )
