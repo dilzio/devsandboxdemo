@@ -1,4 +1,4 @@
-    # version_settings() enforces a minimum Tilt version
+# version_settings() enforces a minimum Tilt version
 # https://docs.tilt.dev/api.html#api.version_settings
 version_settings(constraint='>=0.22.2')
 
@@ -12,11 +12,18 @@ helm_resource('helm-ddb', 'keyporttech/dynamodb', resource_deps=['keyporttech'],
 k8s_yaml('./config/kafka/00-namespace.yaml')
 k8s_yaml('./config/kafka/01-zookeeper.yaml')
 k8s_yaml('./config/kafka/02-kafka.yaml')
+#zk readiness check
+# Define the Zookeeper readiness check using kubectl exec
+local_resource(
+    name='wait-for-zookeeper',
+    cmd='bash -c "sleep 10"',
+    deps=[]
+)
 
 #add labels for categorization in the tilt UI and and port forwards so we can access
 #the cluster from outside the cluster for testing (e.g., using kcat on local machine)
 k8s_resource(workload='zookeeper', labels=['Kafka_Cluster'])
-k8s_resource(workload='kafka-broker', port_forwards=9092, resource_deps=['zookeeper'], labels=['Kafka_Cluster'])
+k8s_resource(workload='kafka-broker', port_forwards=9092, resource_deps=['wait-for-zookeeper'], labels=['Kafka_Cluster'])
 
 
 #configure go API service
@@ -43,11 +50,20 @@ load('ext://uibutton', 'cmd_button', 'location', 'text_input')
 
 # create a button in the navbar
 # (logs will go to Tiltfile)
-cmd_button(name='nav-hello-world',
-           argv=['echo', 'Hello nav!'],
-           text='Hello World',
-           location=location.NAV,
-           icon_name='bolt')
+
+cmd_button(
+    name='nav-hello-world',
+    argv=[
+        "docker", "run",
+        "--mount", "type=bind,source=./e2e_test_suites,target=/workdir/tests",
+        "--mount", "type=bind,source=./e2e_test_results,target=/workdir/results",
+        "ovhcom/venom:latest"
+    ],
+    text='Hello World',
+    location=location.NAV,
+    icon_name='bolt'
+)
+
 
 
 

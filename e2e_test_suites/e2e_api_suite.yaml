@@ -1,0 +1,29 @@
+# test.yaml
+name: "HTTP Endpoint Test"
+testcases:
+  - name: "Send JSON message and check status code is 200"
+    steps:
+      - type: http
+        method: POST
+        url: "http://host.docker.internal:8080/send"
+        headers:
+          Content-Type: "application/json"
+        body: |
+          {
+            "key": "testkey",
+            "value": "testvalue"
+          }
+        assertions:
+          - result.statuscode ShouldEqual 200
+      - type: http
+        method: POST
+        url: "http://host.docker.internal:8080/send"
+        headers:
+          Content-Type: "application/json"
+        body: |
+          {
+            "key": "testkey50",
+            "value": "testvalue50"
+          }
+        assertions:
+          - result.statuscode ShouldEqual 200
