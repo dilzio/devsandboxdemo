@@ -1,10 +1,10 @@
-# test.yaml
-name: "HTTP Endpoint Test"
+# e2e_api_suite.yaml
+name: "System Test"
 testcases:
-  - name: "Send JSON message and check status code is 200"
+  - name: "Test Post To API Lands In Dynamo"
     steps:
       - type: http
-        name: "Delete Table"
+        name: "Setup: Delete Table"
         method: POST
         url: "http://host.docker.internal:8000"
         headers:
@@ -21,7 +21,7 @@ testcases:
           }
           - result.statuscode MustEqual 200
       - type: http
-        name: "Create Table"
+        name: "Setup: Create Table"
         method: POST
         url: "http://host.docker.internal:8000"
         headers:
@@ -62,7 +62,7 @@ testcases:
           }
           - result.statuscode MustEqual 200
       - type: http
-        name: "send message to api service"
+        name: "Send message to API"
         method: POST
         url: "http://host.docker.internal:8080/send"
         headers:
@@ -75,7 +75,7 @@ testcases:
         assertions:
           - result.statuscode ShouldEqual 200
       - type: http
-        name: "verify message in dynamodb"
+        name: "Verify message in Dynamo"
         method: POST
         url: "http://host.docker.internal:8000"
         headers:
