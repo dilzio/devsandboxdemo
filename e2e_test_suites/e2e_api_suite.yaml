@@ -4,6 +4,65 @@ testcases:
   - name: "Send JSON message and check status code is 200"
     steps:
       - type: http
+        name: "Delete Table"
+        method: POST
+        url: "http://host.docker.internal:8000"
+        headers:
+          Content-Type: "application/json"
+          X-Amz-Target: "DynamoDB_20120810.DeleteTable"
+          Host: "host.docker.internal:8000"
+          X-Amz-Date: "20241106T214338Z"
+          Authorization: "AWS4-HMAC-SHA256 Credential=key/20241106/us-east-1/dynamodb/aws4_request, SignedHeaders=host;x-amz-date, Signature=dummy-signature"
+          AWS_ACCESS_KEY_ID: "key"
+          AWS_SECRET_ACCESS_KEY: "key"
+        body: |
+          { 
+            "TableName": "KafkaMessages" 
+          }
+          - result.statuscode MustEqual 200
+      - type: http
+        name: "Create Table"
+        method: POST
+        url: "http://host.docker.internal:8000"
+        headers:
+          Content-Type: "application/json"
+          X-Amz-Target: "DynamoDB_20120810.CreateTable"
+          Host: "host.docker.internal:8000"
+          X-Amz-Date: "20241106T214338Z"
+          Authorization: "AWS4-HMAC-SHA256 Credential=key/20241106/us-east-1/dynamodb/aws4_request, SignedHeaders=host;x-amz-date, Signature=dummy-signature"
+          AWS_ACCESS_KEY_ID: "key"
+          AWS_SECRET_ACCESS_KEY: "key"
+        body: |
+          { 
+            "TableName": "KafkaMessages", 
+            "AttributeDefinitions": [ 
+                { 
+                  "AttributeName": "Key", 
+                  "AttributeType": "S"
+                }, 
+                { 
+                  "AttributeName": "Value", 
+                  "AttributeType": "S" 
+                } 
+              ], 
+              "KeySchema": [ 
+                { 
+                   "AttributeName": "Key", 
+                   "KeyType": "HASH" 
+                }, 
+                {
+                   "AttributeName": "Value", 
+                   "KeyType": "RANGE" 
+                } 
+              ], 
+              "ProvisionedThroughput": { 
+                 "ReadCapacityUnits": 5, 
+                "WriteCapacityUnits": 5 
+              } 
+          }
+          - result.statuscode MustEqual 200
+      - type: http
+        name: "send message to api service"
         method: POST
         url: "http://host.docker.internal:8080/send"
         headers:
@@ -15,8 +74,8 @@ testcases:
           }
         assertions:
           - result.statuscode ShouldEqual 200
-
       - type: http
+        name: "verify message in dynamodb"
         method: POST
         url: "http://host.docker.internal:8000"
         headers:
@@ -24,7 +83,9 @@ testcases:
           X-Amz-Target: "DynamoDB_20120810.Scan"
           Host: "host.docker.internal:8000"
           X-Amz-Date: "20241106T214338Z"
-          Authorization: "AWS4-HMAC-SHA256 Credential=dummy/20281106T214338/us-east-1/dynamodb/aws4_request, SignedHeaders=host;x-amz-date, Signature=dummy-signature"
+          Authorization: "AWS4-HMAC-SHA256 Credential=key/20241106/us-east-1/dynamodb/aws4_request, SignedHeaders=host;x-amz-date, Signature=dummy-signature"
+          AWS_ACCESS_KEY_ID: "key"
+          AWS_SECRET_ACCESS_KEY: "key"
         body: |
           {
             "TableName": "KafkaMessages",
@@ -32,3 +93,7 @@ testcases:
           }
         assertions:
           - result.statuscode ShouldEqual 200
+          - result.body ShouldContainSubstring "testkey"
+          - result.body ShouldContainSubstring "testvalue"
+
+
