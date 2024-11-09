@@ -25,7 +25,7 @@
   "postCreateCommand": "sudo -u vscode minikube delete && sudo -u vscode minikube start --driver=docker",
   // Use 'postStartCommand' to run commands after the container is started.
   "postStartCommand": "sudo -u vscode curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash ",
-  "postStartCommand": "sudo -u vscode sleep 10 && sudo -u vscode tilt up",
+ // "postStartCommand": "sudo -u vscode sleep 10 && sudo -u vscode tilt up",
 
   // Configure tool-specific properties.
   "customizations": {

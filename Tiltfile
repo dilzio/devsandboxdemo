@@ -27,8 +27,8 @@ k8s_resource(workload='kafka-broker', port_forwards=9092, resource_deps=['wait-f
 
 
 #configure go API service
-docker_build('api-server', './demo_API', dockerfile='./demo_API/Dockerfile')
-k8s_yaml('./demo_API/deploy.yaml')
+docker_build('api-server', './dc_demo_API', dockerfile='./dc_demo_API/Dockerfile')
+k8s_yaml('./dc_demo_API/deploy.yaml')
 k8s_resource(workload='api-server', port_forwards=8080, labels=['api-server'], resource_deps=['kafka-broker'])
 
 
