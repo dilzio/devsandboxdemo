@@ -5,3 +5,5 @@
 [submodule "dc_demo_API"]
 	path = dc_demo_API
 	url = git@github.com:dilzio/dc_demo_API.git
+[submodule "dc_demo_api"]
+	branch = main
