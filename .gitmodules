@@ -1,6 +1,7 @@
 [submodule "demokconsumer"]
 	path = demokconsumer
-	url = https://github.com/dilzio/demokconsumer.git
+	url = git@github.com:dilzio/demokconsumer.git
+	branch = main
 [submodule "dc_demo_API"]
 	path = dc_demo_API
 	url = git@github.com:dilzio/dc_demo_API.git
