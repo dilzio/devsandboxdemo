@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fde0c069-7c31-4fec-9e24-80a1c2dbba2a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dc_demo_API" beforeDir="false" afterPath="$PROJECT_DIR$/dc_demo_API" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e2e_test_results/test_results_tests_e2e_api_suite.xml" beforeDir="false" afterPath="$PROJECT_DIR$/e2e_test_results/test_results_tests_e2e_api_suite.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e2e_test_results/venom.log" beforeDir="false" afterPath="$PROJECT_DIR$/e2e_test_results/venom.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +49,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
